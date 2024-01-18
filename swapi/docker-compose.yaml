@@ -1,0 +1,37 @@
+version: "3"
+services:
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+    networks:
+      - app-network
+    environment:
+      - DB_CONNECTION_STRING=mongodb://db:27017
+  db:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    networks:
+      - app-network
+  ui:
+    build:
+      context: ./ui
+      dockerfile: Dockerfile
+    ports:
+      - 8081:80
+    depends_on:
+      - server
+      - db
+    networks:
+      - app-network
+    environment:
+      - GRAPHQL_URI=http://server:8080/graphql
+
+networks:
+  app-network:
+    driver: bridge
