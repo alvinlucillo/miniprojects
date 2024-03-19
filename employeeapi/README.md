@@ -1,7 +1,5 @@
 ### Employee CRUD API
 
-Hi, I'm Alvin, and this is the output of the Golang Developer Exercise.
-
 #### Running the server
 
 - Run at the project root: `go run ./cmd/`
