@@ -1,0 +1,40 @@
+### GET employees
+###            
+GET http://localhost:9000/employees
+
+### GET employee
+### 
+GET http://localhost:9000/employees/ed0840f0-bc47-4390-a988-754af64a9306
+
+### DELETE employee
+###
+DELETE http://localhost:9000/employees/e5884dc0-a95a-499b-a4cd-338b01ccffb5
+
+### UPDATE employee
+### 
+PUT http://localhost:9000/employees/ed0840f0-bc47-4390-a988-754af64a9306
+Content-Type: application/json
+
+{
+  "id": "ed0840f0-bc47-4390-a988-754af64a9306",
+  "first_name": "John1",
+  "last_name": "Doe1",
+  "dob": "1985-05-11",
+  "email": "john.doe@example1.com",
+  "is_active": true,
+  "department": "Unassigned",
+  "role": "Software Developer"
+}
+
+### CREATE employee
+###
+POST http://localhost:9000/employees/
+Content-Type: application/json
+
+{
+    "id": "9ba16d45-f35e-44cf-8242-000f5b60ad02",
+    "first_name": "John",
+    "last_name": "Doe",
+    "dob": "1980-01-01",
+    "email": "john.doeeyed@example.com"
+}
