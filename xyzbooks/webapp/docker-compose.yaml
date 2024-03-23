@@ -1,0 +1,58 @@
+version: "3"
+services:
+  db:
+    container_name: webapp-db
+    image: postgres:9.6
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-xyzdb}
+    ports:
+      - "${POSTGRES_PORT:-5432}:${POSTGRES_PORT:-5432}"
+  migrate:
+    build:
+      context: ./server
+      dockerfile: ./docker/migrate.Dockerfile
+    container_name: webapp-migrate
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-xyzdb}
+      POSTGRES_PORT: ${POSTGRES_PORT:-5432}
+      POSTGRES_HOST: ${POSTGRES_HOST:-db}
+      MIGRATE_COMMAND: ${MIGRATE_COMMAND:-up}
+    # volumes:
+    #   - ./db/migrations:/migrations
+    depends_on:
+      - db
+  server:
+    build:
+      context: ./server
+      dockerfile: ./docker/server.Dockerfile
+    container_name: webapp-server
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-xyzdb}
+      POSTGRES_PORT: ${POSTGRES_PORT:-5432}
+      POSTGRES_HOST: ${POSTGRES_HOST:-db}
+      SERVER_PORT: ${SERVER_PORT:-9001}
+    depends_on:
+      - db
+      - migrate
+    ports:
+      - "${SERVER_PORT:-9001}:${SERVER_PORT:-9001}"
+  ui:
+    build:
+      context: ./ui
+      dockerfile: ./ui.Dockerfile
+    container_name: webapp-ui
+    environment:
+      SERVER_PORT: ${SERVER_PORT:-9001}
+      SERVER_HOST: ${SERVER_HOST:-server}
+    ports:
+      - "8080:80"
+    depends_on:
+      - server
+      - migrate
+      - db

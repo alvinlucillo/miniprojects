@@ -1,0 +1,492 @@
+basePath: /api
+definitions:
+  router.Author:
+    properties:
+      first_name:
+        maxLength: 100
+        type: string
+      id:
+        type: string
+      last_name:
+        maxLength: 100
+        type: string
+      middle_name:
+        maxLength: 100
+        type: string
+    required:
+    - first_name
+    - last_name
+    type: object
+  router.Book:
+    properties:
+      authors:
+        items:
+          $ref: '#/definitions/router.Author'
+        type: array
+      edition:
+        maxLength: 100
+        type: string
+      id:
+        type: string
+      image_url:
+        maxLength: 1000
+        type: string
+      isbn10:
+        type: string
+      isbn13:
+        type: string
+      price:
+        type: number
+      publication_year:
+        type: integer
+      publisher:
+        $ref: '#/definitions/router.Publisher'
+      title:
+        maxLength: 100
+        type: string
+    required:
+    - authors
+    - isbn13
+    - price
+    - publication_year
+    - publisher
+    - title
+    type: object
+  router.Publisher:
+    properties:
+      id:
+        type: string
+      name:
+        maxLength: 100
+        type: string
+    required:
+    - name
+    type: object
+  router.ValidationError:
+    properties:
+      field:
+        type: string
+      message:
+        type: string
+    type: object
+  router.ValidationErrors:
+    properties:
+      errors:
+        items:
+          $ref: '#/definitions/router.ValidationError'
+        type: array
+    type: object
+info:
+  contact: {}
+  description: This is the API documentation for the XYZ Books API.
+  title: XYZ Books API
+  version: "1.0"
+paths:
+  /authors:
+    get:
+      consumes:
+      - application/json
+      description: Get all authors
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/router.Author'
+            type: array
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      summary: Get all authors
+      tags:
+      - authors
+    post:
+      consumes:
+      - application/json
+      description: Create author
+      parameters:
+      - description: Author
+        in: body
+        name: author
+        required: true
+        schema:
+          $ref: '#/definitions/router.Author'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/router.Author'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/router.ValidationErrors'
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      summary: Create author
+      tags:
+      - authors
+  /authors/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete author
+      parameters:
+      - description: Author ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      summary: Delete author
+      tags:
+      - authors
+    get:
+      consumes:
+      - application/json
+      description: Get author by ID
+      parameters:
+      - description: Author ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/router.Author'
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      summary: Get author by ID
+      tags:
+      - authors
+    put:
+      consumes:
+      - application/json
+      description: Update author
+      parameters:
+      - description: Author ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Author
+        in: body
+        name: author
+        required: true
+        schema:
+          $ref: '#/definitions/router.Author'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/router.Author'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/router.ValidationErrors'
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      summary: Update author
+      tags:
+      - authors
+  /books:
+    get:
+      description: Get all books
+      operationId: get-books
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/router.Book'
+            type: array
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      summary: Get books
+      tags:
+      - books
+  /books/{id}:
+    delete:
+      description: Delete book
+      operationId: delete-book
+      parameters:
+      - description: Book ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      summary: Delete book
+      tags:
+      - books
+    post:
+      consumes:
+      - application/json
+      description: Create book
+      operationId: create-book
+      parameters:
+      - description: Book ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Book
+        in: body
+        name: book
+        required: true
+        schema:
+          $ref: '#/definitions/router.Book'
+      produces:
+      - application/json
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/router.Book'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/router.ValidationErrors'
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      summary: Create book
+      tags:
+      - books
+    put:
+      consumes:
+      - application/json
+      description: Update book
+      operationId: update-book
+      parameters:
+      - description: Book ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Book
+        in: body
+        name: book
+        required: true
+        schema:
+          $ref: '#/definitions/router.Book'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/router.Book'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/router.ValidationErrors'
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      summary: Update book
+      tags:
+      - books
+  /books/{isbn13}:
+    get:
+      description: Get book by id
+      operationId: get-book-by-id
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/router.Book'
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      summary: Get book by id
+      tags:
+      - books
+  /publishers:
+    get:
+      consumes:
+      - application/json
+      description: Get all publishers
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/router.Publisher'
+            type: array
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      summary: Get all publishers
+      tags:
+      - publishers
+    post:
+      consumes:
+      - application/json
+      description: Create publisher
+      parameters:
+      - description: Publisher
+        in: body
+        name: publisher
+        required: true
+        schema:
+          $ref: '#/definitions/router.Publisher'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/router.Publisher'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/router.ValidationErrors'
+        "500":
+          description: Internal Server Error
+      summary: Create publisher
+      tags:
+      - publishers
+  /publishers/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete publisher
+      parameters:
+      - description: Publisher ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      summary: Delete publisher
+      tags:
+      - publishers
+    get:
+      consumes:
+      - application/json
+      description: Get publisher by ID
+      parameters:
+      - description: Publisher ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/router.Publisher'
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      summary: Get publisher by ID
+      tags:
+      - publishers
+    put:
+      consumes:
+      - application/json
+      description: Update publisher
+      parameters:
+      - description: Publisher ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Publisher
+        in: body
+        name: publisher
+        required: true
+        schema:
+          $ref: '#/definitions/router.Publisher'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/router.Publisher'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/router.ValidationErrors'
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      summary: Update publisher
+      tags:
+      - publishers
+swagger: "2.0"

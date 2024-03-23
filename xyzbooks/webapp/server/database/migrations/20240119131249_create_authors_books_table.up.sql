@@ -1,0 +1,8 @@
+CREATE TABLE authors_books (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    author_id UUID NOT NULL CONSTRAINT fk_author_id REFERENCES author(id),
+    book_id UUID NOT NULL CONSTRAINT fk_book_id REFERENCES book(id),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    deleted_at TIMESTAMP WITH TIME ZONE NULL
+);
