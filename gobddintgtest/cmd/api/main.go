@@ -24,7 +24,8 @@ func main() {
 	userService := services.NewUserService(logger, userRepo)
 	userController := controllers.NewUsersController(userService)
 
-	mux := routers.SetupUserRoutes(userController)
+	mux := http.NewServeMux()
+	routers.SetupUserRoutes(mux, userController)
 
 	// Create an HTTP server
 	server := &http.Server{

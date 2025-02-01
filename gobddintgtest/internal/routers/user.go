@@ -5,9 +5,6 @@ import (
 	"net/http"
 )
 
-func SetupUserRoutes(userController controllers.UsersController) *http.ServeMux {
-	mux := http.NewServeMux()
+func SetupUserRoutes(mux *http.ServeMux, userController controllers.UsersController) {
 	mux.HandleFunc("GET /users", userController.GetUsers)
-
-	return mux
 }
