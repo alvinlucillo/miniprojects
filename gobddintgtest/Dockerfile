@@ -10,9 +10,8 @@ RUN go mod download
 # Copy the entire project
 COPY . .
 
-# Build the API binary
-RUN go build -o api ./cmd/api/main.go
-
+# Build the API binary with static linking
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o api ./cmd/api/main.go
 # Use a minimal image for final deployment
 FROM alpine:latest
 
