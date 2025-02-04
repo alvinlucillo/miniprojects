@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"gobddintgtest/internal/controllers"
+	"gobddintgtest/internal/database"
 	"gobddintgtest/internal/repos"
 	"gobddintgtest/internal/routers"
 	"gobddintgtest/internal/services"
@@ -20,8 +21,14 @@ import (
 func main() {
 
 	logger := zerolog.New(os.Stdout).With().Timestamp().Logger()
-	userRepo := repos.NewUserRepo(nil)
-	userService := services.NewUserService(logger, userRepo)
+
+	mongoDBClient, err := database.NewMongoDatabase()
+	if err != nil {
+		log.Fatalf("Failed to connect to MongoDB: %v", err)
+	}
+
+	repoCollection := repos.NewRepoCollection(mongoDBClient)
+	userService := services.NewUserService(logger, repoCollection)
 	userController := controllers.NewUsersController(userService)
 
 	mux := http.NewServeMux()
@@ -29,7 +36,7 @@ func main() {
 
 	// Create an HTTP server
 	server := &http.Server{
-		Addr:    ":4321",
+		Addr:    ":4200",
 		Handler: mux,
 	}
 
