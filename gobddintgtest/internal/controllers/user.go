@@ -17,14 +17,12 @@ func NewUsersController(userService services.UserService) UsersController {
 }
 
 func (u UsersController) GetUsers(w http.ResponseWriter, r *http.Request) {
-	// users, err := u.userService.GetUsers(r.Context())
-	// if err != nil {
-	// 	http.Error(w, "Failed to fetch users", http.StatusInternalServerError)
-	// 	return
-	// }
-	// json.NewEncoder(w).Encode(users)
-
-	json.NewEncoder(w).Encode("henlo world")
+	users, err := u.userService.GetUsers(r.Context())
+	if err != nil {
+		http.Error(w, "Failed to fetch users", http.StatusInternalServerError)
+		return
+	}
+	json.NewEncoder(w).Encode(users)
 }
 
 /**

@@ -9,17 +9,17 @@ import (
 )
 
 type UserService struct {
-	logger   zerolog.Logger
-	userRepo repos.UserRepo
+	logger zerolog.Logger
+	repo   repos.RepoCollection
 }
 
-func NewUserService(logger zerolog.Logger, userRepo repos.UserRepo) UserService {
+func NewUserService(logger zerolog.Logger, repo repos.RepoCollection) UserService {
 	return UserService{
-		logger:   logger,
-		userRepo: userRepo,
+		logger: logger,
+		repo:   repo,
 	}
 }
 
 func (u UserService) GetUsers(ctx context.Context) ([]models.User, error) {
-	return u.userRepo.GetUsers()
+	return u.repo.User.GetUsers(ctx)
 }

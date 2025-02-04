@@ -1,21 +1,28 @@
 package repos
 
 import (
+	"context"
+	"gobddintgtest/internal/database"
 	"gobddintgtest/internal/models"
 
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
 type UserRepo struct {
-	db *mongo.Database
+	coll *mongo.Collection
 }
 
 func NewUserRepo(db *mongo.Database) UserRepo {
 	return UserRepo{
-		db: db,
+		db.Collection("users"),
 	}
 }
 
-func (u UserRepo) GetUsers() ([]models.User, error) {
+func (u UserRepo) GetUsers(ctx context.Context) ([]models.User, error) {
+	var users []models.User
+
+	if err := database.FindAll(u.coll, &users); err != nil {
+		return nil, err
+	}
 	return nil, nil
 }
