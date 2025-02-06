@@ -24,5 +24,5 @@ func (u UserRepo) GetUsers(ctx context.Context) ([]models.User, error) {
 	if err := database.FindAll(u.coll, &users); err != nil {
 		return nil, err
 	}
-	return nil, nil
+	return users, nil
 }
