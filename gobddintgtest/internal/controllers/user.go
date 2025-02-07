@@ -6,6 +6,11 @@ import (
 	"net/http"
 )
 
+type UserResponse struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
 type UsersController struct {
 	userService services.UserService
 }
@@ -22,16 +27,14 @@ func (u UsersController) GetUsers(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Failed to fetch users", http.StatusInternalServerError)
 		return
 	}
-	json.NewEncoder(w).Encode(users)
-}
 
-/**
-func (c *UserController) GetUsers(w http.ResponseWriter, r *http.Request) {
-	users, err := c.service.GetUsers(r.Context())
-	if err != nil {
-		http.Error(w, "Failed to fetch users", http.StatusInternalServerError)
-		return
+	var response []UserResponse
+	for _, user := range users {
+		response = append(response, UserResponse{
+			ID:   user.ID.Hex(),
+			Name: user.Name,
+		})
 	}
-	json.NewEncoder(w).Encode(users)
+
+	json.NewEncoder(w).Encode(response)
 }
-	**/
