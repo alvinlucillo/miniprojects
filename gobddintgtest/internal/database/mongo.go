@@ -11,6 +11,11 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
+const (
+	DB_NAME         = "gobdddb"
+	USER_COLLECTION = "users"
+)
+
 func NewMongoDatabase() (*mongo.Client, error) {
 	// Connect to MongoDB
 	clientOptions := options.Client().ApplyURI("mongodb://admin:admin@localhost:27018")
