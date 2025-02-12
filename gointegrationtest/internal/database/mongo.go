@@ -54,3 +54,15 @@ func FindAll(collection *mongo.Collection, results interface{}) error {
 
 	return nil
 }
+
+func InsertOne(collection *mongo.Collection, document interface{}) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	_, err := collection.InsertOne(ctx, document)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
