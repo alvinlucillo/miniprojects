@@ -1,7 +1,7 @@
 package routers
 
 import (
-	"gobddintgtest/internal/controllers"
+	"gointegrationtest/internal/controllers"
 	"net/http"
 )
 

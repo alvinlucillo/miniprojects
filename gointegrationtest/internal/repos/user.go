@@ -2,8 +2,8 @@ package repos
 
 import (
 	"context"
-	"gobddintgtest/internal/database"
-	"gobddintgtest/internal/models"
+	"gointegrationtest/internal/database"
+	"gointegrationtest/internal/models"
 
 	"go.mongodb.org/mongo-driver/mongo"
 )

@@ -2,7 +2,7 @@ package utils
 
 import (
 	"context"
-	"gobddintgtest/internal/database"
+	"gointegrationtest/internal/database"
 )
 
 func InsertUsers(ctx context.Context, users []interface{}) error {

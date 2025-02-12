@@ -2,8 +2,8 @@ package services
 
 import (
 	"context"
-	"gobddintgtest/internal/models"
-	"gobddintgtest/internal/repos"
+	"gointegrationtest/internal/models"
+	"gointegrationtest/internal/repos"
 
 	"github.com/rs/zerolog"
 )

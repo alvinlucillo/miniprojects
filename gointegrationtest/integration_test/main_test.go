@@ -2,10 +2,10 @@ package integration_test
 
 import (
 	"context"
-	"gobddintgtest/integration_test/utils"
-	"gobddintgtest/internal/controllers"
-	"gobddintgtest/internal/repos"
-	"gobddintgtest/internal/services"
+	"gointegrationtest/integration_test/utils"
+	"gointegrationtest/internal/controllers"
+	"gointegrationtest/internal/repos"
+	"gointegrationtest/internal/services"
 	"log"
 	"os"
 	"testing"

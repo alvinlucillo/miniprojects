@@ -9,11 +9,11 @@ import (
 	"syscall"
 	"time"
 
-	"gobddintgtest/internal/controllers"
-	"gobddintgtest/internal/database"
-	"gobddintgtest/internal/repos"
-	"gobddintgtest/internal/routers"
-	"gobddintgtest/internal/services"
+	"gointegrationtest/internal/controllers"
+	"gointegrationtest/internal/database"
+	"gointegrationtest/internal/repos"
+	"gointegrationtest/internal/routers"
+	"gointegrationtest/internal/services"
 
 	"github.com/rs/zerolog"
 )

@@ -2,8 +2,8 @@ package integration_test
 
 import (
 	"context"
-	"gobddintgtest/integration_test/utils"
-	"gobddintgtest/internal/models"
+	"gointegrationtest/integration_test/utils"
+	"gointegrationtest/internal/models"
 	"testing"
 
 	"github.com/stretchr/testify/require"
