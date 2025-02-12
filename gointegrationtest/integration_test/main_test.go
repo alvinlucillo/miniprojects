@@ -38,7 +38,7 @@ func TestMain(m *testing.M) {
 	logger := zerolog.New(os.Stdout).With().Timestamp().Logger()
 
 	// Initialize shared service
-	userService = services.NewUserService(logger, repoCollection) // Pass your logger if needed
+	userService = services.NewUserService(logger, repoCollection)
 
 	// Initialize shared controller
 	userController = controllers.NewUsersController(userService)
@@ -51,7 +51,7 @@ func TestMain(m *testing.M) {
 
 	// Cleanup MongoDB after all tests
 	log.Println("Stopping MongoDB test container...")
-	utils.CleanupMongoDB()
+	utils.TerminateMongoDB()
 
 	// Exit with the test result code
 	os.Exit(code)
