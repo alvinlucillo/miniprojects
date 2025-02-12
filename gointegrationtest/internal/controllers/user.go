@@ -2,14 +2,10 @@ package controllers
 
 import (
 	"encoding/json"
+	"gointegrationtest/internal/models"
 	"gointegrationtest/internal/services"
 	"net/http"
 )
-
-type UserResponse struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
-}
 
 type UsersController struct {
 	userService services.UserService
@@ -28,13 +24,32 @@ func (u UsersController) GetUsers(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var response []UserResponse
+	var response []models.UserResponse
 	for _, user := range users {
-		response = append(response, UserResponse{
+		response = append(response, models.UserResponse{
 			ID:   user.ID.Hex(),
 			Name: user.Name,
 		})
 	}
 
 	json.NewEncoder(w).Encode(response)
+}
+
+func (u UsersController) CreateUser(w http.ResponseWriter, r *http.Request) {
+	var req models.UserRequest
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, "Invalid request", http.StatusBadRequest)
+		return
+	}
+
+	id, err := u.userService.CreateUser(r.Context(), req)
+	if err != nil {
+		http.Error(w, "Failed to create user", http.StatusInternalServerError)
+		return
+	}
+
+	json.NewEncoder(w).Encode(models.UserResponse{
+		ID:   id,
+		Name: req.Name,
+	})
 }
