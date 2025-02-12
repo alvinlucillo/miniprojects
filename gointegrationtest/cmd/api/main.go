@@ -19,7 +19,6 @@ import (
 )
 
 func main() {
-
 	logger := zerolog.New(os.Stdout).With().Timestamp().Logger()
 
 	mongoDBClient, err := database.NewMongoDatabase()
@@ -48,23 +47,28 @@ func main() {
 	go func() {
 		log.Printf("Server running on port: %v", server.Addr)
 		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			log.Fatalf("Server failed: %v", err)
+			log.Printf("Server failed: %v", err)
 		}
 	}()
 
 	// Wait for termination signal
 	<-stop
-	log.Println("Shutting down server...")
 
 	// Create a timeout context for shutdown
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
+
+	log.Println("Disconnecting database...")
+	if err := mongoDBClient.Disconnect(ctx); err != nil {
+		log.Printf("Failed to disconnect from MongoDB: %v", err)
+	}
+
+	log.Println("Shutting down server...")
 
 	// Gracefully shutdown the server
 	if err := server.Shutdown(ctx); err != nil {
 		log.Fatalf("Server forced to shutdown: %v", err)
 	}
 
-	log.Println("Server exited properly")
-
+	log.Println("Server exited")
 }
