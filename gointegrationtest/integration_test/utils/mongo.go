@@ -3,10 +3,12 @@ package utils
 import (
 	"context"
 	"fmt"
+	"gointegrationtest/internal/database"
 	"log"
 
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/wait"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -41,8 +43,25 @@ func SetupMongoDB() string {
 	return mongoURI
 }
 
-// CleanupMongoDB stops MongoDB after all tests
-func CleanupMongoDB() {
+func TerminateMongoDB() error {
 	log.Println("Stopping MongoDB test container...")
-	_ = mongoContainer.Terminate(context.Background())
+	return mongoContainer.Terminate(context.Background())
+}
+
+func CleanupMongoDB() error {
+	log.Println("Cleaning up MongoDB...")
+	_, _ = MongoClient.Database("test").Collection("users").DeleteMany(context.Background(), nil)
+
+	collections, err := MongoClient.Database(database.DB_NAME).ListCollectionNames(context.TODO(), bson.M{})
+	if err != nil {
+		return err
+	}
+
+	for _, coll := range collections {
+		err := MongoClient.Database(database.DB_NAME).Collection(coll).Drop(context.TODO())
+		if err != nil {
+			return fmt.Errorf("failed to drop collection %s: %w", coll, err)
+		}
+	}
+	return nil
 }
