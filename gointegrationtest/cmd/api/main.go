@@ -29,9 +29,11 @@ func main() {
 	repoCollection := repos.NewRepoCollection(mongoDBClient)
 	userService := services.NewUserService(logger, repoCollection)
 	userController := controllers.NewUsersController(userService)
+	batchController := controllers.NewBatchController(services.NewBatchService(logger, repoCollection))
 
 	mux := http.NewServeMux()
 	routers.SetupUserRoutes(mux, userController)
+	routers.SetupBatchRoutes(mux, batchController)
 
 	// Create an HTTP server
 	server := &http.Server{
