@@ -7,13 +7,15 @@ import (
 )
 
 type RepoCollection struct {
-	User UserRepo
+	User  UserRepo
+	Batch BatchRepo
 }
 
 func NewRepoCollection(client *mongo.Client) RepoCollection {
 	db := client.Database(database.DB_NAME)
 
 	return RepoCollection{
-		User: NewUserRepo(db),
+		User:  NewUserRepo(db),
+		Batch: NewBatchRepo(db),
 	}
 }
