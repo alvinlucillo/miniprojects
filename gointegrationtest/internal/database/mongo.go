@@ -12,8 +12,9 @@ import (
 )
 
 const (
-	DB_NAME         = "gobdddb"
-	USER_COLLECTION = "users"
+	DB_NAME          = "gobdddb"
+	USER_COLLECTION  = "users"
+	BATCH_COLLECTION = "batches"
 )
 
 func NewMongoDatabase() (*mongo.Client, error) {
@@ -49,18 +50,6 @@ func FindAll(collection *mongo.Collection, results interface{}) error {
 
 	// Decode documents into the provided results slice
 	if err = cursor.All(ctx, results); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func InsertOne(collection *mongo.Collection, document interface{}) error {
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
-
-	_, err := collection.InsertOne(ctx, document)
-	if err != nil {
 		return err
 	}
 
