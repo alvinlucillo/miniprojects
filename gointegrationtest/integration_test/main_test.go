@@ -19,6 +19,7 @@ var (
 	repoCollection repos.RepoCollection
 	userService    services.UserService
 	userController controllers.UsersController
+	batchService   services.BatchService
 )
 
 func TestMain(m *testing.M) {
@@ -42,6 +43,8 @@ func TestMain(m *testing.M) {
 
 	// Initialize shared controller
 	userController = controllers.NewUsersController(userService)
+
+	batchService = services.NewBatchService(logger, repoCollection)
 
 	// Run tests
 	code := m.Run()
