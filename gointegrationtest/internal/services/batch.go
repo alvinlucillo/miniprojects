@@ -10,14 +10,16 @@ import (
 )
 
 type BatchService struct {
-	logger zerolog.Logger
-	repo   repos.RepoCollection
+	logger       zerolog.Logger
+	repo         repos.RepoCollection
+	azureManager AzureManager
 }
 
-func NewBatchService(logger zerolog.Logger, repo repos.RepoCollection) BatchService {
+func NewBatchService(logger zerolog.Logger, repo repos.RepoCollection, azureManager AzureManager) BatchService {
 	return BatchService{
-		logger: logger,
-		repo:   repo,
+		logger:       logger,
+		repo:         repo,
+		azureManager: azureManager,
 	}
 }
 
