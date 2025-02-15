@@ -26,10 +26,15 @@ func main() {
 		log.Fatalf("Failed to connect to MongoDB: %v", err)
 	}
 
+	azureManager, err := services.NewAzureManager()
+	if err != nil {
+		log.Fatalf("Failed to create AzureManager: %v", err)
+	}
+
 	repoCollection := repos.NewRepoCollection(mongoDBClient)
 	userService := services.NewUserService(logger, repoCollection)
 	userController := controllers.NewUsersController(userService)
-	batchController := controllers.NewBatchController(services.NewBatchService(logger, repoCollection))
+	batchController := controllers.NewBatchController(services.NewBatchService(logger, repoCollection, azureManager))
 
 	mux := http.NewServeMux()
 	routers.SetupUserRoutes(mux, userController)
