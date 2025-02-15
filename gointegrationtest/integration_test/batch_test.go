@@ -17,11 +17,13 @@ func TestGetBatches(t *testing.T) {
 	batches = append(batches, models.Batch{
 		DateRequested: gofakeit.Date().Truncate(time.Millisecond),
 		Status:        models.BatchStatusPending,
+		Type:          models.BatchTypeGenerateUsersDB,
 	})
 	batches = append(batches, models.Batch{
 		DateRequested: gofakeit.Date().Truncate(time.Millisecond),
 		Status:        models.BatchStatusError,
 		ErrorMessage:  gofakeit.Sentence(10),
+		Type:          models.BatchTypeGenerateUsersDB,
 	})
 	if err := utils.InsertBatches(context.TODO(), batches); err != nil {
 		require.NoError(t, err)
@@ -38,6 +40,7 @@ func TestGetBatches(t *testing.T) {
 		require.Equal(t, batches[i].(models.Batch).DateRequested.Truncate(time.Millisecond), result[i].DateRequested.Truncate(time.Millisecond))
 		require.Equal(t, batches[i].(models.Batch).Status, result[i].Status)
 		require.Equal(t, batches[i].(models.Batch).ErrorMessage, result[i].ErrorMessage)
+		require.Equal(t, batches[i].(models.Batch).Type, result[i].Type)
 	}
 
 	err = utils.CleanupMongoDB()
