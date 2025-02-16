@@ -17,33 +17,39 @@ func NewBatchController(batchService services.BatchService) BatchController {
 	}
 }
 
-func (u BatchController) GetBatches(w http.ResponseWriter, r *http.Request) {
-	batches, err := u.batchService.GetBatches(r.Context())
+func (u BatchController) GetGenerateDBExportRequests(w http.ResponseWriter, r *http.Request) {
+	requests, err := u.batchService.GetGenerateDBExportRequests(r.Context())
 	if err != nil {
-		http.Error(w, "failed to fetch batches", http.StatusInternalServerError)
+		http.Error(w, "failed to fetch dbexports", http.StatusInternalServerError)
 		return
 	}
 
-	var response []models.BatchResponse
-	for _, batch := range batches {
-		response = append(response, models.BatchResponse{
-			ID:           batch.ID.Hex(),
-			Status:       batch.Status,
-			ErrorMessage: batch.ErrorMessage,
+	var response []models.DBExportResponse
+	for _, batch := range requests {
+		response = append(response, models.DBExportResponse{
+			ID:            batch.ID.Hex(),
+			Status:        batch.Status,
+			ErrorMessage:  batch.ErrorMessage,
+			DateRequested: batch.DateRequested,
 		})
 	}
 
 	json.NewEncoder(w).Encode(response)
 }
 
-func (u BatchController) CreateBatch(w http.ResponseWriter, r *http.Request) {
-	id, err := u.batchService.CreateBatch(r.Context())
+func (u BatchController) GenerateDBExport(w http.ResponseWriter, r *http.Request) {
+	dbExport, err := u.batchService.GenerateDBExport(r.Context())
 	if err != nil {
-		http.Error(w, "failed to create batch", http.StatusInternalServerError)
+		http.Error(w, "failed to generate db export", http.StatusInternalServerError)
 		return
 	}
 
-	json.NewEncoder(w).Encode(models.BatchResponse{
-		ID: id,
-	})
+	response := models.DBExportResponse{
+		ID:            dbExport.ID.Hex(),
+		Status:        dbExport.Status,
+		ErrorMessage:  dbExport.ErrorMessage,
+		DateRequested: dbExport.DateRequested,
+	}
+
+	json.NewEncoder(w).Encode(response)
 }
