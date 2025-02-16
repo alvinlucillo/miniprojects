@@ -16,23 +16,18 @@ const (
 	BatchTypeGenerateUsersDB = "generate_users_db"
 )
 
-type Batch struct {
+type DBExport struct {
 	ID            primitive.ObjectID `bson:"_id,omitempty"`
 	DateRequested time.Time          `bson:"name"`
 	Status        string             `bson:"status"`
+	FileName      string             `bson:"file_name"`
 	ErrorMessage  string             `bson:"error_message"`
-	Type          string             `bson:"type"`
 }
 
-type BatchResponse struct {
+type DBExportResponse struct {
 	ID            string    `json:"id"`
 	DateRequested time.Time `json:"date_requested"`
+	FileName      string    `bson:"file_name"`
 	Status        string    `json:"status"`
 	ErrorMessage  string    `json:"error_message"`
-	Type          string    `json:"type"`
-}
-
-type BatchRequest struct {
-	DateRequested time.Time `json:"date_requested"`
-	Type          string    `json:"type"`
 }
