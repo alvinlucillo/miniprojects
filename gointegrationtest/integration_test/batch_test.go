@@ -13,34 +13,30 @@ import (
 
 func TestGetBatches(t *testing.T) {
 	// Given
-	var batches []interface{}
-	batches = append(batches, models.Batch{
+	var dbExports []interface{}
+	dbExports = append(dbExports, models.DBExport{
 		DateRequested: gofakeit.Date().Truncate(time.Millisecond),
 		Status:        models.BatchStatusPending,
-		Type:          models.BatchTypeGenerateUsersDB,
 	})
-	batches = append(batches, models.Batch{
+	dbExports = append(dbExports, models.DBExport{
 		DateRequested: gofakeit.Date().Truncate(time.Millisecond),
 		Status:        models.BatchStatusError,
 		ErrorMessage:  gofakeit.Sentence(10),
-		Type:          models.BatchTypeGenerateUsersDB,
 	})
-	if err := utils.InsertBatches(context.TODO(), batches); err != nil {
+	if err := utils.InsertBatches(context.TODO(), dbExports); err != nil {
 		require.NoError(t, err)
 	}
 
 	// When
-	result, err := batchService.GetBatches(context.TODO())
+	result, err := batchService.GetGenerateDBExportRequests(context.TODO())
 
 	// Then
 	require.NoError(t, err)
-	require.NotEmpty(t, batches)
-	require.Equal(t, len(batches), len(result))
-	for i := range batches {
-		require.Equal(t, batches[i].(models.Batch).DateRequested.Truncate(time.Millisecond), result[i].DateRequested.Truncate(time.Millisecond))
-		require.Equal(t, batches[i].(models.Batch).Status, result[i].Status)
-		require.Equal(t, batches[i].(models.Batch).ErrorMessage, result[i].ErrorMessage)
-		require.Equal(t, batches[i].(models.Batch).Type, result[i].Type)
+	require.Equal(t, len(dbExports), len(result))
+	for i := range dbExports {
+		require.Equal(t, dbExports[i].(models.DBExport).DateRequested.Truncate(time.Millisecond), result[i].DateRequested.Truncate(time.Millisecond))
+		require.Equal(t, dbExports[i].(models.DBExport).Status, result[i].Status)
+		require.Equal(t, dbExports[i].(models.DBExport).ErrorMessage, result[i].ErrorMessage)
 	}
 
 	err = utils.CleanupMongoDB()
