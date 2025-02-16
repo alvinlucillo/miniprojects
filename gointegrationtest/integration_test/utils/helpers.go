@@ -10,7 +10,7 @@ import (
 )
 
 func InsertBatches(ctx context.Context, batches []interface{}) error {
-	_, err := MongoClient.Database(database.DB_NAME).Collection(database.BATCH_COLLECTION).InsertMany(ctx, batches)
+	_, err := MongoClient.Database(database.DB_NAME).Collection(database.EXPORTED_DB_COLLECTION).InsertMany(ctx, batches)
 	return err
 }
 

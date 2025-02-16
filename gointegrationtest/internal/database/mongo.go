@@ -12,9 +12,9 @@ import (
 )
 
 const (
-	DB_NAME          = "gobdddb"
-	USER_COLLECTION  = "users"
-	BATCH_COLLECTION = "batches"
+	DB_NAME                = "gobdddb"
+	USER_COLLECTION        = "users"
+	EXPORTED_DB_COLLECTION = "db_exports"
 )
 
 func NewMongoDatabase() (*mongo.Client, error) {
