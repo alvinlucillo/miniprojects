@@ -3,8 +3,11 @@ package services
 import (
 	"context"
 	"fmt"
+	"gointegrationtest/internal/database"
 	"gointegrationtest/internal/models"
 	"gointegrationtest/internal/repos"
+	"os"
+	"path/filepath"
 	"time"
 
 	"github.com/rs/zerolog"
@@ -33,6 +36,7 @@ func (b BatchService) GenerateDBExport(ctx context.Context) (models.DBExport, er
 		Status:        models.BatchStatusPending,
 		DateRequested: time.Now().Truncate(time.Millisecond),
 	}
+
 	id, err := b.repo.Batch.InsertDBExports(ctx, dbExport)
 	if err != nil {
 		return dbExport, err
@@ -57,12 +61,28 @@ func (b BatchService) GenerateDBExport(ctx context.Context) (models.DBExport, er
 	// Generate sqlitedb
 
 	// Generate sqlitedb name first: YYYYMMDDHHMMSS.db
-	// dbExportName := time.Now().Format("20060102150405") + ".db"
+	dbExportName := time.Now().Format("20060102150405") + ".db"
+	filepath.Join(os.TempDir(), dbExportName)
+	defer os.Remove(dbExportName)
 
-	// // Send message to Azure
-	// if err := b.azureManager.SendAzureMessage(ctx, id); err != nil {
-	// 	return "", err
-	// }
+	if err := database.CreateUsersDB(users, dbExportName); err != nil {
+		dbExport.Status = models.BatchStatusError
+		dbExport.ErrorMessage = "Failed to create db: " + err.Error()
+		if err := b.repo.Batch.UpdateDBExport(ctx, dbExport); err != nil {
+			return dbExport, fmt.Errorf("updating dbExport: %w", err)
+		}
+		return dbExport, fmt.Errorf("creating db: %w", err)
+	}
+
+	if err := b.azureManager.UploadFile(ctx, dbExportName, dbExportName); err != nil {
+		dbExport.Status = models.BatchStatusError
+		dbExport.ErrorMessage = "Failed to upload file: " + err.Error()
+		if err := b.repo.Batch.UpdateDBExport(ctx, dbExport); err != nil {
+			return dbExport, fmt.Errorf("updating dbExport: %w", err)
+		}
+		return dbExport, fmt.Errorf("uploading file: %w", err)
+	}
+	dbExport.FileName = dbExportName
 
 	return dbExport, nil
 }
