@@ -9,6 +9,7 @@ import (
 
 	"github.com/brianvoe/gofakeit/v7"
 	"github.com/stretchr/testify/require"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 func TestGetBatches(t *testing.T) {
@@ -38,6 +39,37 @@ func TestGetBatches(t *testing.T) {
 		require.Equal(t, dbExports[i].(models.DBExport).Status, result[i].Status)
 		require.Equal(t, dbExports[i].(models.DBExport).ErrorMessage, result[i].ErrorMessage)
 	}
+
+	err = utils.CleanupMongoDB()
+	if err != nil {
+		t.Fatalf("Failed to clean up MongoDB: %v", err)
+	}
+}
+
+func TestGenerateDBExport(t *testing.T) {
+	// Given
+	var users []interface{}
+	users = append(users, models.User{
+		Name: gofakeit.Name(),
+	})
+	users = append(users, models.User{
+		Name: gofakeit.Name(),
+	})
+	if err := utils.InsertUsers(context.TODO(), users); err != nil {
+		require.NoError(t, err)
+	}
+
+	// When
+	dbExport, err := batchService.GenerateDBExport(context.TODO())
+
+	// Then
+	require.NoError(t, err)
+
+	require.NotEmpty(t, dbExport.FileName, "file name should not be empty")
+	require.NotEmpty(t, dbExport.Status, "status should not be empty")
+	require.NotEmpty(t, dbExport.DateRequested, "date requested should not be empty")
+	require.NotEqual(t, primitive.NilObjectID, dbExport.ID, "id should not be empty")
+	require.Empty(t, dbExport.ErrorMessage, "error message should be empty")
 
 	err = utils.CleanupMongoDB()
 	if err != nil {
