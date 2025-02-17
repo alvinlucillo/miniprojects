@@ -40,9 +40,10 @@ func TestMain(m *testing.M) {
 	}
 
 	// Set environment variables for Azurite compatibility
-	os.Setenv("AZURE_STORAGE_ACCOUNT", "devstoreaccount1")
-	os.Setenv("AZURE_STORAGE_KEY", "Eby8vdM02xNOcqFlqUwJPLlmEtlCDlQvFvhH6c3aqw4=")
+	os.Setenv("AZURE_STORAGE_ACCOUNT", utils.DefaultAzureAccountName)
+	os.Setenv("AZURE_STORAGE_KEY", utils.DefaultAzureBlobKey)
 	os.Setenv("AZURE_STORAGE_BLOB_ENDPOINT", blobEndpoint)
+	os.Setenv("AZURE_STORAGE_CONTAINER_NAME", utils.TestContainerName)
 
 	// Initialize Azure Manager with Azurite
 	azureManager, err := services.NewAzureManager()
