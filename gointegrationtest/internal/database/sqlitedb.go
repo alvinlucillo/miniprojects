@@ -36,3 +36,34 @@ func CreateUsersDB(users []models.User, fileName string) error {
 
 	return nil
 }
+
+func GetUsersFromDatabase(fileName string) ([]models.User, error) {
+	db, err := sql.Open("sqlite", fileName)
+	if err != nil {
+		return nil, fmt.Errorf("opening database: %w", err)
+	}
+	defer db.Close()
+
+	// Query all users
+	rows, err := db.Query("SELECT id, name FROM users")
+	if err != nil {
+		return nil, fmt.Errorf("querying users: %w", err)
+	}
+	defer rows.Close()
+
+	var users []models.User
+	for rows.Next() {
+		var user models.User
+		var id string
+		if err := rows.Scan(&id, &user.Name); err != nil {
+			return nil, fmt.Errorf("scanning user: %w", err)
+		}
+		user.ID, err = primitive.ObjectIDFromHex(id)
+		if err != nil {
+			return nil, fmt.Errorf("converting id [%s] to ObjectID: %w", id, err)
+		}
+		users = append(users, user)
+	}
+
+	return users, nil
+}
