@@ -3,7 +3,11 @@ package integration_test
 import (
 	"context"
 	"gointegrationtest/integration_test/utils"
+	"gointegrationtest/internal/database"
 	"gointegrationtest/internal/models"
+	"gointegrationtest/internal/services"
+	"os"
+	"path/filepath"
 	"testing"
 	"time"
 
@@ -13,6 +17,7 @@ import (
 )
 
 func TestGetBatches(t *testing.T) {
+	ctx := context.Background()
 	// Given
 	var dbExports []interface{}
 	dbExports = append(dbExports, models.DBExport{
@@ -24,12 +29,12 @@ func TestGetBatches(t *testing.T) {
 		Status:        models.BatchStatusError,
 		ErrorMessage:  gofakeit.Sentence(10),
 	})
-	if err := utils.InsertBatches(context.TODO(), dbExports); err != nil {
+	if err := utils.InsertBatches(ctx, dbExports); err != nil {
 		require.NoError(t, err)
 	}
 
 	// When
-	result, err := batchService.GetGenerateDBExportRequests(context.TODO())
+	result, err := batchService.GetGenerateDBExportRequests(ctx)
 
 	// Then
 	require.NoError(t, err)
