@@ -5,13 +5,14 @@ import (
 	"fmt"
 	"gointegrationtest/internal/models"
 
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	_ "modernc.org/sqlite" // SQLite driver
 )
 
 func CreateUsersDB(users []models.User, fileName string) error {
 	db, err := sql.Open("sqlite", fileName)
 	if err != nil {
-		return err
+		return fmt.Errorf("opening database: %w", err)
 	}
 	defer db.Close()
 
@@ -22,17 +23,16 @@ func CreateUsersDB(users []models.User, fileName string) error {
 	)`
 	_, err = db.Exec(query)
 	if err != nil {
-		return err
+		return fmt.Errorf("creating users table: %w", err)
 	}
 
 	// Insert users into table
 	for _, user := range users {
 		_, err := db.Exec("INSERT INTO users (id, name) VALUES (?, ?)", user.ID.Hex(), user.Name)
 		if err != nil {
-			return err
+			return fmt.Errorf("inserting user: %w", err)
 		}
 	}
 
-	fmt.Println("SQLite DB created successfully with users")
 	return nil
 }
