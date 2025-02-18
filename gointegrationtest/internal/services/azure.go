@@ -16,7 +16,7 @@ type AzureManager struct {
 func NewAzureManager() (AzureManager, error) {
 	accountName := os.Getenv("AZURE_STORAGE_ACCOUNT")
 	accountKey := os.Getenv("AZURE_STORAGE_KEY")
-	blobEndpoint := os.Getenv("AZURE_STORAGE_BLOB_ENDPOINT") // Required for Azurite
+	blobEndpoint := os.Getenv("AZURE_STORAGE_BLOB_ENDPOINT")
 	containerName := os.Getenv("AZURE_STORAGE_CONTAINER_NAME")
 
 	azureManager := AzureManager{
@@ -27,7 +27,6 @@ func NewAzureManager() (AzureManager, error) {
 		return azureManager, fmt.Errorf("AZURE_STORAGE_ACCOUNT, AZURE_STORAGE_KEY, and AZURE_STORAGE_BLOB_ENDPOINT must be set")
 	}
 
-	// ✅ Create a Blob Client
 	credential, err := azblob.NewSharedKeyCredential(accountName, accountKey)
 	if err != nil {
 		return azureManager, fmt.Errorf("failed to create credential: %w", err)
