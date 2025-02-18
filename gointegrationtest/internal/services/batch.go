@@ -59,8 +59,6 @@ func (b BatchService) GenerateDBExport(ctx context.Context) (models.DBExport, er
 	}
 
 	// Generate sqlitedb
-
-	// Generate sqlitedb name first: YYYYMMDDHHMMSS.db
 	dbExportName := time.Now().Format("20060102150405") + ".db"
 	filepath.Join(os.TempDir(), dbExportName)
 	defer os.Remove(dbExportName)
