@@ -52,6 +52,7 @@ func TestGetBatches(t *testing.T) {
 }
 
 func TestGenerateDBExport(t *testing.T) {
+	ctx := context.Background()
 	// Given
 	var users []interface{}
 	users = append(users, models.User{
@@ -60,12 +61,12 @@ func TestGenerateDBExport(t *testing.T) {
 	users = append(users, models.User{
 		Name: gofakeit.Name(),
 	})
-	if err := utils.InsertUsers(context.TODO(), users); err != nil {
+	if err := utils.InsertUsers(ctx, users); err != nil {
 		require.NoError(t, err)
 	}
 
 	// When
-	dbExport, err := batchService.GenerateDBExport(context.TODO())
+	dbExport, err := batchService.GenerateDBExport(ctx)
 
 	// Then
 	require.NoError(t, err)
@@ -76,8 +77,27 @@ func TestGenerateDBExport(t *testing.T) {
 	require.NotEqual(t, primitive.NilObjectID, dbExport.ID, "id should not be empty")
 	require.Empty(t, dbExport.ErrorMessage, "error message should be empty")
 
+	azureManager, err := services.NewAzureManager()
+	require.NoError(t, err, "failed to create AzureManager")
+
+	tmpFilePath := filepath.Join(os.TempDir(), dbExport.FileName)
+	defer os.Remove(tmpFilePath)
+
+	err = azureManager.GetBlobFile(ctx, dbExport.FileName, tmpFilePath)
+	require.NoError(t, err, "failed to get blob file")
+
+	usersFromAzure, err := database.GetUsersFromDatabase(tmpFilePath)
+	require.NoError(t, err, "failed to get users from database")
+
+	require.Equal(t, len(users), len(usersFromAzure), "number of users should be the same")
+	for i := range users {
+		expectedUser, ok := users[i].(models.User)
+		require.True(t, ok, "failed to cast user")
+		require.Equal(t, expectedUser.Name, usersFromAzure[i].Name, "user names should be the same")
+	}
+
 	err = utils.CleanupMongoDB()
 	if err != nil {
-		t.Fatalf("Failed to clean up MongoDB: %v", err)
+		t.Fatalf("failed to clean up MongoDB: %v", err)
 	}
 }
