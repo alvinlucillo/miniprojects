@@ -54,9 +54,8 @@ func SetupAzuriteContainer() (testcontainers.Container, string, error) {
 		return nil, "", fmt.Errorf("failed to create client: %w", err)
 	}
 
-	// ✅ Ensure the container exists
 	containerClient := blobClient.ServiceClient().NewContainerClient(TestContainerName)
-	_, err = containerClient.Create(context.TODO(), &container.CreateOptions{})
+	_, err = containerClient.Create(ctx, &container.CreateOptions{})
 	if err != nil {
 		return nil, "", fmt.Errorf("failed to create container: %w", err)
 	}
