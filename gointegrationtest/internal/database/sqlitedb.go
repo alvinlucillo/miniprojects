@@ -44,7 +44,6 @@ func GetUsersFromDatabase(fileName string) ([]models.User, error) {
 	}
 	defer db.Close()
 
-	// Query all users
 	rows, err := db.Query("SELECT id, name FROM users")
 	if err != nil {
 		return nil, fmt.Errorf("querying users: %w", err)

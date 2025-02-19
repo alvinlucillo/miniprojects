@@ -20,7 +20,7 @@ func NewUsersController(userService services.UserService) UsersController {
 func (u UsersController) GetUsers(w http.ResponseWriter, r *http.Request) {
 	users, err := u.userService.GetUsers(r.Context())
 	if err != nil {
-		http.Error(w, "Failed to fetch users", http.StatusInternalServerError)
+		http.Error(w, "failed fetching users", http.StatusInternalServerError)
 		return
 	}
 

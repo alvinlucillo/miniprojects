@@ -15,7 +15,6 @@ import (
 var MongoClient *mongo.Client
 var mongoContainer testcontainers.Container
 
-// SetupMongoDB starts MongoDB and returns the URI
 func SetupMongoDB() string {
 	ctx := context.Background()
 	req := testcontainers.ContainerRequest{

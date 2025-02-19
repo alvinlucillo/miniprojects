@@ -26,7 +26,6 @@ func (u UserService) GetUsers(ctx context.Context) ([]models.User, error) {
 }
 
 func (u UserService) CreateUser(ctx context.Context, user models.UserRequest) (string, error) {
-
 	if user.Name == "" {
 		return "", fmt.Errorf(models.EmptyFieldErrorFormat, "name")
 	}

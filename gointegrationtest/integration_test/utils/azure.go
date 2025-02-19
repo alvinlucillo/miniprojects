@@ -30,22 +30,20 @@ func SetupAzuriteContainer() (testcontainers.Container, string, error) {
 		Started:          true,
 	})
 	if err != nil {
-		return nil, "", fmt.Errorf("failed to start Azurite container: %w", err)
+		return nil, "", fmt.Errorf("starting Azurite container: %w", err)
 	}
 
 	// Get Azurite's mapped port
 	hostIP, err := azuriteContainer.Host(ctx)
 	if err != nil {
-		return nil, "", fmt.Errorf("failed to get container host: %w", err)
+		return nil, "", fmt.Errorf("getting container host: %w", err)
 	}
 	mappedPort, err := azuriteContainer.MappedPort(ctx, "10000")
 	if err != nil {
-		return nil, "", fmt.Errorf("failed to get mapped port: %w", err)
+		return nil, "", fmt.Errorf("getting mapped port: %w", err)
 	}
 
-	// Construct the connection string
 	blobEndpoint := fmt.Sprintf("http://%s:%s/devstoreaccount1", hostIP, mappedPort.Port())
-	// ✅ Create Blob Client
 	credential, err := azblob.NewSharedKeyCredential(DefaultAzureAccountName, DefaultAzureBlobKey)
 	if err != nil {
 		return nil, "", fmt.Errorf("failed to create credential: %w", err)

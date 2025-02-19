@@ -20,7 +20,7 @@ func NewBatchController(batchService services.BatchService) BatchController {
 func (u BatchController) GetGenerateDBExportRequests(w http.ResponseWriter, r *http.Request) {
 	requests, err := u.batchService.GetGenerateDBExportRequests(r.Context())
 	if err != nil {
-		http.Error(w, "failed to fetch dbexports", http.StatusInternalServerError)
+		http.Error(w, "failed fetching dbexports", http.StatusInternalServerError)
 		return
 	}
 
@@ -40,7 +40,7 @@ func (u BatchController) GetGenerateDBExportRequests(w http.ResponseWriter, r *h
 func (u BatchController) GenerateDBExport(w http.ResponseWriter, r *http.Request) {
 	dbExport, err := u.batchService.GenerateDBExport(r.Context())
 	if err != nil {
-		http.Error(w, "failed to generate db export", http.StatusInternalServerError)
+		http.Error(w, "failed generating db export", http.StatusInternalServerError)
 		return
 	}
 

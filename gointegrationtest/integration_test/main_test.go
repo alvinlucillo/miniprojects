@@ -23,20 +23,18 @@ var (
 )
 
 func TestMain(m *testing.M) {
-	// Start MongoDB test container
 	mongoURI := utils.SetupMongoDB()
 
-	// Initialize MongoDB client
 	var err error
 	utils.MongoClient, err = mongo.Connect(context.TODO(), options.Client().ApplyURI(mongoURI))
 	if err != nil {
-		log.Fatalf("Failed to connect to MongoDB: %v", err)
+		log.Fatalf("failed to connect to MongoDB: %v", err)
 	}
 
 	// Start Azurite container
 	azuriteContainer, blobEndpoint, err := utils.SetupAzuriteContainer()
 	if err != nil {
-		log.Fatalf("Failed to setup Azurite: %v", err)
+		log.Fatalf("failed to setup Azurite: %v", err)
 	}
 
 	// Set environment variables for Azurite compatibility
@@ -48,20 +46,14 @@ func TestMain(m *testing.M) {
 	// Initialize Azure Manager with Azurite
 	azureManager, err := services.NewAzureManager()
 	if err != nil {
-		log.Fatalf("Failed to create AzureManager: %v", err)
+		log.Fatalf("failed to create AzureManager: %v", err)
 	}
-
-	// Initialize shared repository collection
-	repoCollection = repos.NewRepoCollection(utils.MongoClient)
 
 	logger := zerolog.New(os.Stdout).With().Timestamp().Logger()
 
-	// Initialize shared service
+	repoCollection = repos.NewRepoCollection(utils.MongoClient)
 	userService = services.NewUserService(logger, repoCollection)
-
-	// Initialize shared controller
 	userController = controllers.NewUsersController(userService)
-
 	batchService = services.NewBatchService(logger, repoCollection, azureManager)
 
 	// Run tests
@@ -69,13 +61,10 @@ func TestMain(m *testing.M) {
 
 	// Cleanup
 	utils.MongoClient.Disconnect(context.TODO())
-
-	// Cleanup MongoDB after all tests
 	log.Println("Stopping MongoDB test container...")
 	utils.TerminateMongoDB()
 
-	_ = azuriteContainer.Terminate(context.Background()) // Ensure container cleanup
+	_ = azuriteContainer.Terminate(context.Background())
 
-	// Exit with the test result code
 	os.Exit(code)
 }

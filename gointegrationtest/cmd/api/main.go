@@ -23,12 +23,12 @@ func main() {
 
 	mongoDBClient, err := database.NewMongoDatabase()
 	if err != nil {
-		log.Fatalf("Failed to connect to MongoDB: %v", err)
+		log.Fatalf("failed to connect to MongoDB: %v", err)
 	}
 
 	azureManager, err := services.NewAzureManager()
 	if err != nil {
-		log.Fatalf("Failed to create AzureManager: %v", err)
+		log.Fatalf("failed to create AzureManager: %v", err)
 	}
 
 	repoCollection := repos.NewRepoCollection(mongoDBClient)

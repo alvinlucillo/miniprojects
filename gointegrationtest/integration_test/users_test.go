@@ -36,7 +36,7 @@ func TestGetUsers(t *testing.T) {
 
 	err = utils.CleanupMongoDB()
 	if err != nil {
-		t.Fatalf("Failed to clean up MongoDB: %v", err)
+		t.Fatalf("failed to clean up MongoDB: %v", err)
 	}
 }
 
@@ -61,6 +61,6 @@ func TestCreateUser(t *testing.T) {
 
 	err = utils.CleanupMongoDB()
 	if err != nil {
-		t.Fatalf("Failed to clean up MongoDB: %v", err)
+		t.Fatalf("failed to clean up MongoDB: %v", err)
 	}
 }
