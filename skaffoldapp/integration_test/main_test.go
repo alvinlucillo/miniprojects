@@ -23,6 +23,12 @@ var (
 )
 
 func TestMain(m *testing.M) {
+	// testIntgration := os.Getenv("TEST_INTEGRATION")
+	// // Use with TEST_INTEGRATION=true to run integration tests
+	// if testIntgration != "true" {
+	// 	log.Println("Skipping integration tests")
+	// 	os.Exit(0)
+	// }
 	mongoURI := utils.SetupMongoDB()
 
 	var err error
