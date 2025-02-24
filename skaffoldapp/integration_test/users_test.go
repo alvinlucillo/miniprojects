@@ -2,9 +2,10 @@ package integration_test
 
 import (
 	"context"
+	"testing"
+
 	"skaffoldapp/integration_test/utils"
 	"skaffoldapp/internal/models"
-	"testing"
 
 	"github.com/brianvoe/gofakeit/v7"
 	"github.com/stretchr/testify/require"
