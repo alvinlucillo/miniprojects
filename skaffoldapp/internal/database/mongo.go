@@ -16,9 +16,10 @@ const (
 	EXPORTED_DB_COLLECTION = "db_exports"
 )
 
-func NewMongoDatabase() (*mongo.Client, error) {
+func NewMongoDatabase(host, port, username, password string) (*mongo.Client, error) {
 	// Connect to MongoDB
-	clientOptions := options.Client().ApplyURI("mongodb://admin:admin@localhost:27018")
+	// clientOptions := options.Client().ApplyURI("mongodb://admin:admin@localhost:27018")
+	clientOptions := options.Client().ApplyURI(fmt.Sprintf("mongodb://%v:%v@%v:%v", username, password, host, port))
 	client, err := mongo.Connect(context.TODO(), clientOptions)
 	if err != nil {
 		return nil, fmt.Errorf("connecting to MongoDB: %w", err)
