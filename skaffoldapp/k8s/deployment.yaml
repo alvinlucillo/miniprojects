@@ -22,7 +22,7 @@ spec:
               value: mongo
             - name: MONGODB_PORT
               value: "27017"
-            - name: MONGODB_USER
+            - name: MONGODB_USERNAME
               value: admin
             - name: MONGODB_PASSWORD  
               value: admin
