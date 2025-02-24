@@ -18,5 +18,11 @@ spec:
           ports:
             - containerPort: 8080
           env:
-            - name: ENV
-              value: "development"
+            - name: MONGODB_HOST
+              value: mongo
+            - name: MONGODB_PORT
+              value: "27017"
+            - name: MONGODB_USER
+              value: admin
+            - name: MONGODB_PASSWORD  
+              value: admin
