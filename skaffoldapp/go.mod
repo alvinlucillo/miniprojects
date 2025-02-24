@@ -1,10 +1,11 @@
-module skaffoldapp	
+module skaffoldapp
 
 go 1.22.3
 
 require (
 	github.com/Azure/azure-sdk-for-go/sdk/storage/azblob v1.6.0
 	github.com/brianvoe/gofakeit/v7 v7.2.1
+	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/rs/zerolog v1.33.0
 	github.com/stretchr/testify v1.10.0
 	github.com/testcontainers/testcontainers-go v0.35.0
