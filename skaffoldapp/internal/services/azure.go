@@ -13,18 +13,13 @@ type AzureManager struct {
 	containerName string
 }
 
-func NewAzureManager() (AzureManager, error) {
-	accountName := os.Getenv("AZURE_STORAGE_ACCOUNT")
-	accountKey := os.Getenv("AZURE_STORAGE_KEY")
-	blobEndpoint := os.Getenv("AZURE_STORAGE_BLOB_ENDPOINT")
-	containerName := os.Getenv("AZURE_STORAGE_CONTAINER_NAME")
-
+func NewAzureManager(accountName, accountKey, blobEndpoint, containerName string) (AzureManager, error) {
 	azureManager := AzureManager{
 		containerName: containerName,
 	}
 
-	if accountName == "" || accountKey == "" || blobEndpoint == "" {
-		return azureManager, fmt.Errorf("AZURE_STORAGE_ACCOUNT, AZURE_STORAGE_KEY, and AZURE_STORAGE_BLOB_ENDPOINT must be set")
+	if containerName == "" || accountName == "" || accountKey == "" || blobEndpoint == "" {
+		return azureManager, fmt.Errorf("AZURE_STORAGE_CONTAINER_NAME, AZURE_STORAGE_ACCOUNT, AZURE_STORAGE_KEY, and AZURE_STORAGE_BLOB_ENDPOINT must be set")
 	}
 
 	credential, err := azblob.NewSharedKeyCredential(accountName, accountKey)
