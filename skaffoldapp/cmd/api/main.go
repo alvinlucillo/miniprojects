@@ -20,10 +20,14 @@ import (
 )
 
 type Environment struct {
-	MongoDBUsername string `required:"true" envconfig:"MONGODB_USERNAME"`
-	MongoDBPassword string `required:"true" envconfig:"MONGODB_PASSWORD"`
-	MongoDBHost     string `required:"true" envconfig:"MONGODB_HOST"`
-	MongoDBPort     string `required:"true" envconfig:"MONGODB_PORT"`
+	MongoDBUsername       string `required:"true" envconfig:"MONGODB_USERNAME"`
+	MongoDBPassword       string `required:"true" envconfig:"MONGODB_PASSWORD"`
+	MongoDBHost           string `required:"true" envconfig:"MONGODB_HOST"`
+	MongoDBPort           string `required:"true" envconfig:"MONGODB_PORT"`
+	AzStorageAccount      string `required:"true" envconfig:"AZURE_STORAGE_ACCOUNT"`
+	AzStorageKey          string `required:"true" envconfig:"AZURE_STORAGE_KEY"`
+	AzStorageBlobEndpoint string `required:"true" envconfig:"AZURE_STORAGE_BLOB_ENDPOINT"`
+	AzContainerName       string `required:"true" envconfig:"AZURE_STORAGE_CONTAINER_NAME"`
 }
 
 func main() {
@@ -39,7 +43,7 @@ func main() {
 		log.Fatalf("failed to connect to MongoDB: %v", err)
 	}
 
-	azureManager, err := services.NewAzureManager()
+	azureManager, err := services.NewAzureManager(env.AzStorageAccount, env.AzStorageKey, env.AzStorageBlobEndpoint, env.AzContainerName)
 	if err != nil {
 		log.Fatalf("failed to create AzureManager: %v", err)
 	}
