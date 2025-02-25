@@ -77,7 +77,7 @@ func TestGenerateDBExport(t *testing.T) {
 	require.NotEqual(t, primitive.NilObjectID, dbExport.ID, "id should not be empty")
 	require.Empty(t, dbExport.ErrorMessage, "error message should be empty")
 
-	azureManager, err := services.NewAzureManager()
+	azureManager, err := services.NewAzureManager(utils.DefaultAzureAccountName, utils.DefaultAzureBlobKey, AzBlobEndpoint, utils.TestContainerName)
 	require.NoError(t, err, "failed to create AzureManager")
 
 	tmpFilePath := filepath.Join(os.TempDir(), dbExport.FileName)

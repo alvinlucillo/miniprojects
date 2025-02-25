@@ -20,6 +20,7 @@ var (
 	userService    services.UserService
 	userController controllers.UsersController
 	batchService   services.BatchService
+	AzBlobEndpoint string
 )
 
 func TestMain(m *testing.M) {
@@ -49,8 +50,10 @@ func TestMain(m *testing.M) {
 	os.Setenv("AZURE_STORAGE_BLOB_ENDPOINT", blobEndpoint)
 	os.Setenv("AZURE_STORAGE_CONTAINER_NAME", utils.TestContainerName)
 
+	AzBlobEndpoint = blobEndpoint
+
 	// Initialize Azure Manager with Azurite
-	azureManager, err := services.NewAzureManager()
+	azureManager, err := services.NewAzureManager(utils.DefaultAzureAccountName, utils.DefaultAzureBlobKey, AzBlobEndpoint, utils.TestContainerName)
 	if err != nil {
 		log.Fatalf("failed to create AzureManager: %v", err)
 	}
