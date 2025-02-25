@@ -26,3 +26,11 @@ spec:
               value: admin
             - name: MONGODB_PASSWORD  
               value: admin
+            - name: AZURE_STORAGE_ACCOUNT
+              value: my-storage-account
+            - name: AZURE_STORAGE_KEY
+              value: my-storage-key
+            - name: AZURE_STORAGE_BLOB_ENDPOINT
+              value: my-storage-blob-endpoint
+            - name: AZURE_STORAGE_CONTAINER_NAME
+              value: my-storage-container-name
