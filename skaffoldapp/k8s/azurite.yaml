@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: azurite
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: azurite
+  template:
+    metadata:
+      labels:
+        app: azurite
+    spec:
+      containers:
+        - name: azurite
+          image: mcr.microsoft.com/azure-storage/azurite
+          ports:
+            - containerPort: 10000 # Blob
+            - containerPort: 10001 # Queue
+            - containerPort: 10002 # Table
+          volumeMounts:
+            - mountPath: /workspace
+              name: azurite-storage
+      volumes:
+        - name: azurite-storage
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: azurite
+spec:
+  selector:
+    app: azurite
+  ports:
+    - name: blob
+      protocol: TCP
+      port: 10000
+      targetPort: 10000
+    - name: queue
+      protocol: TCP
+      port: 10001
+      targetPort: 10001
+    - name: table
+      protocol: TCP
+      port: 10002
+      targetPort: 10002
