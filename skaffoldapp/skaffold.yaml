@@ -9,6 +9,7 @@ build:
         dockerfile: Dockerfile
 manifests:
   rawYaml:
+    - k8s/mongodb.yaml
+    - k8s/azurite.yaml
     - k8s/deployment.yaml
     - k8s/service.yaml
-    - k8s/mongodb.yaml
