@@ -27,10 +27,10 @@ spec:
             - name: MONGODB_PASSWORD  
               value: admin
             - name: AZURE_STORAGE_ACCOUNT
-              value: my-storage-account
+              value: devstoreaccount1
             - name: AZURE_STORAGE_KEY
-              value: my-storage-key
+              value: Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==
             - name: AZURE_STORAGE_BLOB_ENDPOINT
-              value: my-storage-blob-endpoint
+              value: http://azurite:10000/devstoreaccount1
             - name: AZURE_STORAGE_CONTAINER_NAME
-              value: my-storage-container-name
+              value: container-name
