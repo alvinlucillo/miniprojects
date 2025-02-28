@@ -1,3 +1,0 @@
-This miniproject demonstrates how Testcontainers is used to spin up MongoDB and Azurite containers for integration testing. 
-
-More from this article: https://medium.com/nullifying-the-null/integration-testing-with-testcontainers-in-go-2d3c24d15d2a
