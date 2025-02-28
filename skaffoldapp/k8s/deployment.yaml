@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: my-app
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: my-app
@@ -23,7 +23,7 @@ spec:
         - name: my-app
           image: my-app
           ports:
-            - containerPort: 8080
+            - containerPort: 80
           env:
             - name: MONGODB_HOST
               value: mongo
