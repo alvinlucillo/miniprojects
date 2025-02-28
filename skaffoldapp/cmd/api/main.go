@@ -59,7 +59,7 @@ func main() {
 
 	// Create an HTTP server
 	server := &http.Server{
-		Addr:    ":4200",
+		Addr:    ":80",
 		Handler: mux,
 	}
 
