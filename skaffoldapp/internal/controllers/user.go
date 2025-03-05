@@ -24,7 +24,7 @@ func (u UsersController) GetUsers(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var response []models.UserResponse
+	response := []models.UserResponse{}
 	for _, user := range users {
 		response = append(response, models.UserResponse{
 			ID:   user.ID.Hex(),
