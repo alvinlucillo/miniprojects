@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      # initContainers:
+      # - name: wait-for-mongo
+      #   image: busybox
+      #   command: ['sh', '-c', 'until nc -z mongo.default.svc.cluster.local 27017; do echo waiting for mongo; sleep 2; done;']
+      # - name: wait-for-azurite
+      #   image: busybox
+      #   command: ['sh', '-c', 'until nc -z azurite.default.svc.cluster.local 10000; do echo waiting for mongo; sleep 2; done;']
+      containers:
+        - name: app
+          image: my-app
+          ports:
+            - containerPort: 80
+          env:
+            - name: MONGODB_HOST
+              value: mongodb-mongodb 
+            - name: MONGODB_PORT
+              value: "27017"
+            - name: MONGODB_USERNAME
+              value: admin
+            - name: MONGODB_PASSWORD  
+              value: admin
+            - name: AZURE_STORAGE_ACCOUNT
+              value: devstoreaccount1
+            - name: AZURE_STORAGE_KEY
+              value: Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==
+            - name: AZURE_STORAGE_BLOB_ENDPOINT
+              value: http://azurite:10000/devstoreaccount1
+            - name: AZURE_STORAGE_CONTAINER_NAME
+              value: container-name
