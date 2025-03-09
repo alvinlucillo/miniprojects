@@ -18,7 +18,7 @@ portForward:
   - resourceType: service
     resourceName: my-ingress-ingress-nginx-controller
     namespace: kube-system
-    port: 80
+    port: 80 
     localPort: 8080
 deploy:
   helm:
