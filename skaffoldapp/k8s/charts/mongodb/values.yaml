@@ -8,7 +8,7 @@ image:
 auth:
   rootUsername: admin
   rootPassword: admin
-  database: testdb
+  database: gobddd
 
 service:
   type: ClusterIP
