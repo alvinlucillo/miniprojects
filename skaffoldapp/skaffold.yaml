@@ -20,3 +20,10 @@ portForward:
     namespace: kube-system
     port: 80
     localPort: 8080
+deploy:
+  helm:
+    releases:
+      - name: mongodb
+        chartPath: k8s/charts/mongodb
+        valuesFiles:
+          - k8s/charts/mongodb/values.yaml
