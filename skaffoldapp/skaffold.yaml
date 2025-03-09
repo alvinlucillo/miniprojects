@@ -9,11 +9,13 @@ build:
         dockerfile: Dockerfile
 manifests:
   rawYaml:
-    - k8s/mongodb.yaml
+    # The only resource not using helm
     - k8s/azurite.yaml
-    - k8s/deployment.yaml
-    - k8s/service.yaml
-    - k8s/ingress.yaml
+    # Retained here to show how to use without helm
+    # - k8s/mongodb.yaml
+    # - k8s/deployment.yaml
+    # - k8s/service.yaml
+    # - k8s/ingress.yaml
 portForward: 
   - resourceType: service
     resourceName: my-ingress-ingress-nginx-controller
