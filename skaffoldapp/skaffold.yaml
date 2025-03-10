@@ -28,8 +28,8 @@ deploy:
       - name: mongodb
         chartPath: k8s/charts/mongodb
         valuesFiles:
-          - k8s/charts/mongodb/values.yaml
+          - skaffold-global-values.yaml
       - name: app
         chartPath: k8s/charts/app
         valuesFiles:
-          - k8s/charts/app/values.yaml
+          - skaffold-global-values.yaml
