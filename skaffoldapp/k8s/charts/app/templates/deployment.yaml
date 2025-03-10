@@ -26,13 +26,13 @@ spec:
             - containerPort: 80
           env:
             - name: MONGODB_HOST
-              value: mongodb-mongodb 
+              value: {{ .Values.mongodb.host }}
             - name: MONGODB_PORT
-              value: "27017"
+              value: {{ .Values.global.mongodb.port }}
             - name: MONGODB_USERNAME
-              value: admin
+              value: {{ .Values.global.mongodb.username }}
             - name: MONGODB_PASSWORD  
-              value: admin
+              value: {{ .Values.global.mongodb.password }}
             - name: AZURE_STORAGE_ACCOUNT
               value: devstoreaccount1
             - name: AZURE_STORAGE_KEY
