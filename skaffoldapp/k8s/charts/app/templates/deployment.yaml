@@ -12,6 +12,8 @@ spec:
       labels:
         app: app
     spec:
+      # we can have timeout setting in the api server to wait for these services instead of using initContainers
+      # but retaining this as an example
       # initContainers:
       # - name: wait-for-mongo
       #   image: busybox
