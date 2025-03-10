@@ -1,0 +1,6 @@
+global:
+  mongodb:
+    username: admin
+    password: admin
+    database: gobddd
+    port: 27017
