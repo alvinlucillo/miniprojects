@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "mongodb.fullname" . }}
+  name: {{ include "mongodb.name" . }}
   labels:
     app: {{ include "mongodb.name" . }}
 spec:
@@ -22,11 +22,11 @@ spec:
             - containerPort: {{ .Values.service.port }}
           env:
             - name: MONGO_INITDB_ROOT_USERNAME
-              value: {{ .Values.auth.rootUsername }}
+              value: {{ .Values.global.mongodb.username }}
             - name: MONGO_INITDB_ROOT_PASSWORD
-              value: {{ .Values.auth.rootPassword }}
+              value: {{ .Values.global.mongodb.password }}
             - name: MONGO_INITDB_DATABASE
-              value: {{ .Values.auth.database }}
+              value: {{ .Values.global.mongodb.database }}
           resources:
             limits:
               memory: {{ .Values.resources.limits.memory }}
