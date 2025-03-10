@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "mongodb.fullname" . }}
+  name: {{ include "mongodb.name" . }}
   labels:
     app: {{ include "mongodb.name" . }}
 spec:
