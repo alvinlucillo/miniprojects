@@ -30,7 +30,7 @@ spec:
             - name: MONGODB_HOST
               value: {{ .Values.mongodb.host }}
             - name: MONGODB_PORT
-              value: {{ .Values.global.mongodb.port }}
+              value: {{ .Values.global.mongodb.port | quote }}
             - name: MONGODB_USERNAME
               value: {{ .Values.global.mongodb.username }}
             - name: MONGODB_PASSWORD  
