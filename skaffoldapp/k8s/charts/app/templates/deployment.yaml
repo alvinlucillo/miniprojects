@@ -36,10 +36,10 @@ spec:
             - name: MONGODB_PASSWORD  
               value: {{ .Values.global.mongodb.password }}
             - name: AZURE_STORAGE_ACCOUNT
-              value: devstoreaccount1
+              value: {{ .Values.azure.storage_account }}
             - name: AZURE_STORAGE_KEY
-              value: Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==
+              value: {{ .Values.azure.storage_key }}
             - name: AZURE_STORAGE_BLOB_ENDPOINT
-              value: http://azurite:10000/devstoreaccount1
+              value: {{ .Values.azure.blob_endpoint }}
             - name: AZURE_STORAGE_CONTAINER_NAME
-              value: container-name
+              value: {{ .Values.azure.container_name }}
