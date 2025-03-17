@@ -25,6 +25,14 @@ portForward:
 deploy:
   helm:
     releases:
+      - name: my-ingress
+        repo: https://kubernetes.github.io/ingress-nginx
+        remoteChart: ingress-nginx
+        namespace: kube-system
+        createNamespace: false
+        setValues:
+          controller.service.type: ClusterIP
+        wait: true
       - name: mongodb
         chartPath: k8s/charts/mongodb
         valuesFiles:
