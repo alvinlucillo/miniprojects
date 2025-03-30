@@ -3,7 +3,7 @@ package database
 import (
 	"database/sql"
 	"fmt"
-	"skaffoldapp/internal/models"
+	"skaffoldapp/internal/shared/models"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	_ "modernc.org/sqlite" // SQLite driver

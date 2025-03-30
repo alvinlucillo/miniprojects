@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"skaffoldapp/internal/database"
+	"skaffoldapp/internal/shared/database"
 
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/wait"

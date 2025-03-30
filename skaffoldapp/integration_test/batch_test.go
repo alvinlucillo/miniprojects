@@ -5,9 +5,9 @@ import (
 	"os"
 	"path/filepath"
 	"skaffoldapp/integration_test/utils"
-	"skaffoldapp/internal/database"
-	"skaffoldapp/internal/models"
-	"skaffoldapp/internal/services"
+	"skaffoldapp/internal/api/services"
+	"skaffoldapp/internal/shared/database"
+	"skaffoldapp/internal/shared/models"
 	"testing"
 	"time"
 

@@ -3,8 +3,8 @@ package services
 import (
 	"context"
 	"fmt"
-	"skaffoldapp/internal/models"
-	"skaffoldapp/internal/repos"
+	"skaffoldapp/internal/shared/models"
+	"skaffoldapp/internal/shared/repos"
 
 	"github.com/rs/zerolog"
 )

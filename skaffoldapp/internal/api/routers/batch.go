@@ -2,7 +2,7 @@ package routers
 
 import (
 	"net/http"
-	"skaffoldapp/internal/controllers"
+	"skaffoldapp/internal/api/controllers"
 )
 
 func SetupBatchRoutes(mux *http.ServeMux, batchController controllers.BatchController) {

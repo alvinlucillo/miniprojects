@@ -1,7 +1,7 @@
 package repos
 
 import (
-	"skaffoldapp/internal/database"
+	"skaffoldapp/internal/shared/database"
 
 	"go.mongodb.org/mongo-driver/mongo"
 )

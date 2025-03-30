@@ -5,9 +5,9 @@ import (
 	"log"
 	"os"
 	"skaffoldapp/integration_test/utils"
-	"skaffoldapp/internal/controllers"
-	"skaffoldapp/internal/repos"
-	"skaffoldapp/internal/services"
+	"skaffoldapp/internal/api/controllers"
+	"skaffoldapp/internal/api/services"
+	"skaffoldapp/internal/shared/repos"
 	"testing"
 
 	"github.com/rs/zerolog"

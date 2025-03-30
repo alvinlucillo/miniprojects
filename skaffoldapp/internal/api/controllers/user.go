@@ -3,8 +3,8 @@ package controllers
 import (
 	"encoding/json"
 	"net/http"
-	"skaffoldapp/internal/models"
-	"skaffoldapp/internal/services"
+	"skaffoldapp/internal/api/services"
+	"skaffoldapp/internal/shared/models"
 )
 
 type UsersController struct {

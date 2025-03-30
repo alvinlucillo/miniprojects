@@ -3,8 +3,8 @@ package repos
 import (
 	"context"
 	"fmt"
-	"skaffoldapp/internal/database"
-	"skaffoldapp/internal/models"
+	"skaffoldapp/internal/shared/database"
+	"skaffoldapp/internal/shared/models"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"

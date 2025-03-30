@@ -3,8 +3,8 @@ package utils
 import (
 	"context"
 	"fmt"
-	"skaffoldapp/internal/database"
-	"skaffoldapp/internal/models"
+	"skaffoldapp/internal/shared/database"
+	"skaffoldapp/internal/shared/models"
 
 	"go.mongodb.org/mongo-driver/bson"
 )

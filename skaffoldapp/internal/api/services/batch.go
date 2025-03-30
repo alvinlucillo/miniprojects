@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"skaffoldapp/internal/database"
-	"skaffoldapp/internal/models"
-	"skaffoldapp/internal/repos"
+	"skaffoldapp/internal/shared/database"
+	"skaffoldapp/internal/shared/models"
+	"skaffoldapp/internal/shared/repos"
 	"time"
 
 	"github.com/rs/zerolog"

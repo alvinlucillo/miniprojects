@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	"skaffoldapp/integration_test/utils"
-	"skaffoldapp/internal/models"
+	"skaffoldapp/internal/shared/models"
 
 	"github.com/brianvoe/gofakeit/v7"
 	"github.com/stretchr/testify/require"

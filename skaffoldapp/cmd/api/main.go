@@ -9,11 +9,11 @@ import (
 	"syscall"
 	"time"
 
-	"skaffoldapp/internal/controllers"
-	"skaffoldapp/internal/database"
-	"skaffoldapp/internal/repos"
-	"skaffoldapp/internal/routers"
-	"skaffoldapp/internal/services"
+	"skaffoldapp/internal/api/controllers"
+	"skaffoldapp/internal/api/routers"
+	"skaffoldapp/internal/api/services"
+	"skaffoldapp/internal/shared/database"
+	"skaffoldapp/internal/shared/repos"
 
 	"github.com/kelseyhightower/envconfig"
 	"github.com/rs/zerolog"
