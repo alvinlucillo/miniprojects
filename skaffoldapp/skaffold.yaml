@@ -6,7 +6,7 @@ build:
   artifacts:
     - image: my-app
       docker:
-        dockerfile: Dockerfile
+        dockerfile: api.Dockerfile
 manifests:
   rawYaml:
     # The only resource not using helm
