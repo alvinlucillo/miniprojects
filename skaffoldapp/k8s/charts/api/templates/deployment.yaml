@@ -6,11 +6,11 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: app
+      app: api
   template:
     metadata:
       labels:
-        app: app
+        app: api
     spec:
       # we can have timeout setting in the api server to wait for these services instead of using initContainers
       # but retaining this as an example
@@ -22,8 +22,8 @@ spec:
       #   image: busybox
       #   command: ['sh', '-c', 'until nc -z azurite.default.svc.cluster.local 10000; do echo waiting for mongo; sleep 2; done;']
       containers:
-        - name: app
-          image: my-app
+        - name: api
+          image: skaffoldapp-api
           ports:
             - containerPort: 80
           env:
