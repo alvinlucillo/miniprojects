@@ -35,7 +35,7 @@ func main() {
 
 	var env Environment
 	if err := envconfig.Process("", &env); err != nil {
-		log.Fatalf("failed to load environment variables: %v", err)
+		log.Fatalf("failed to load environment variables.: %v", err)
 	}
 
 	mongoDBClient, err := database.NewMongoDatabase(env.MongoDBHost, env.MongoDBPort, env.MongoDBUsername, env.MongoDBPassword)
