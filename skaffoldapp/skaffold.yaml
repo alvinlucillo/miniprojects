@@ -12,6 +12,14 @@ build:
           - ./cmd/api/**
           - ./internal/api/**
           - ./internal/shared/**
+    - image: skaffoldapp-job
+      ko:
+        main: ./cmd/job/
+        dependencies:
+          paths:
+          - ./cmd/job/**
+          - ./internal/job/**
+          - ./internal/shared/**
 manifests:
   rawYaml:
     # The only resource not using helm
