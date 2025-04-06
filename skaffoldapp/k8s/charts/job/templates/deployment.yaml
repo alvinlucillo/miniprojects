@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "app.name" . }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: job
+  template:
+    metadata:
+      labels:
+        app: job
+    spec:
+      containers:
+        - name: job
+          image: skaffoldapp-job
+          ports:
+            - containerPort: 80
+          env:
+            - name: MONGODB_HOST
+              value: {{ .Values.mongodb.host }}
+            - name: MONGODB_PORT
+              value: {{ .Values.global.mongodb.port | quote }}
+            - name: MONGODB_USERNAME
+              value: {{ .Values.global.mongodb.username }}
+            - name: MONGODB_PASSWORD  
+              value: {{ .Values.global.mongodb.password }}
+            - name: AZURE_STORAGE_ACCOUNT
+              value: {{ .Values.azure.storage_account }}
+            - name: AZURE_STORAGE_KEY
+              value: {{ .Values.azure.storage_key }}
+            - name: AZURE_STORAGE_BLOB_ENDPOINT
+              value: {{ .Values.azure.blob_endpoint }}
+            - name: AZURE_STORAGE_CONTAINER_NAME
+              value: {{ .Values.azure.container_name }}
