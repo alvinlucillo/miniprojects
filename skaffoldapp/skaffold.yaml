@@ -4,6 +4,10 @@ metadata:
   name: skaffoldapp
 build:
   artifacts:
+    # This uses dockerfile to build the image
+    # - image: my-app
+    #   docker:
+    #     dockerfile: api.Dockerfile
     - image: skaffoldapp-api
       ko:
         main: ./cmd/api/
