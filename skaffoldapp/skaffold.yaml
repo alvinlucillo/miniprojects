@@ -37,6 +37,10 @@ deploy:
         chartPath: k8s/charts/mongodb
         valuesFiles:
           - skaffold-global-values.yaml
+      - name: api
+        chartPath: k8s/charts/api
+        valuesFiles:
+          - skaffold-global-values.yaml
       - name: job
         chartPath: k8s/charts/job
         valuesFiles:
