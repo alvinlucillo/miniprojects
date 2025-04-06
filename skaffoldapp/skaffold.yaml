@@ -4,9 +4,14 @@ metadata:
   name: skaffoldapp
 build:
   artifacts:
-    - image: my-app
-      docker:
-        dockerfile: api.Dockerfile
+    - image: skaffoldapp-api
+      ko:
+        main: ./cmd/api/
+        dependencies:
+          paths:
+          - ./cmd/api/**
+          - ./internal/api/**
+          - ./internal/shared/**
 manifests:
   rawYaml:
     # The only resource not using helm
