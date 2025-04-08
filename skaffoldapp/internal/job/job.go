@@ -17,6 +17,7 @@ func NewJobService(logger zerolog.Logger) JobService {
 
 }
 
+// Just a demo for another service
 func (j JobService) Run() {
 	// Implement the logic for running the job
 	j.poll()
