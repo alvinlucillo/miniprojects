@@ -1,3 +1,6 @@
+
+# This dockerfile isn't used anymore
+
 FROM golang:1.22 as builder
 
 WORKDIR /app
