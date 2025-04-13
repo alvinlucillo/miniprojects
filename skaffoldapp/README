@@ -1,0 +1,150 @@
+### Context
+This project demonstrates a simple application of skaffold, a continuous deployment tool. To help with the demo, this project has two microservices: `api` and `job`. Respectively, they are for API endpoints and job processes.
+
+#### Medium blog
+More details on this blog: 
+
+#### Project structure
+
+```
+├── cmd                             -> entrypoint of microservices
+│   ├── api
+│   │   └── main.go
+│   └── job
+│       └── main.go
+├── integration_test                -> ignore this; this is from another project
+├── internal                        -> specific to each microservice except for shared
+│   ├── api
+│   ├── job
+│   └── shared
+├── k8s                             -> k8s manifests and helm charts
+│   ├── azurite.yaml
+│   └── charts
+│       ├── api
+│       ├── job
+│       └── mongodb
+├── skaffold-global-values.yaml     -> global values
+└── skaffold.yaml                   -> skaffold config
+```
+
+### Getting started
+#### Prerequisites
+* [Docker ](https://medium.com/r/?url=https%3A%2F%2Fdocs.docker.com%2Fengine%2Finstall%2F)- containerizing apps
+* [Minikube](https://minikube.sigs.k8s.io/docs/start/?arch=%2Fwindows%2Fx86-64%2Fstable%2F.exe+download) - local k8s cluster
+* [k9s](https://medium.com/r/?url=https%3A%2F%2Fk9scli.io%2Ftopics%2Finstall%2F) (optional - but recommended to view k8s resources easily)
+
+#### Run the app
+`skaffold dev`
+
+#### Sample skaffold output:
+```
+Generating tags...
+ - skaffoldapp-api -> skaffoldapp-api:c72a5fa-dirty
+ - skaffoldapp-job -> skaffoldapp-job:c72a5fa-dirty
+Checking cache...
+ - skaffoldapp-api: Found Locally
+ - skaffoldapp-job: Found Locally
+Tags used in deployment:
+ - skaffoldapp-api -> skaffoldapp-api:d0f7ce7f2d5b11515ba57c5c3b659c56df68ab72ac9b057391c98568a1f12ea1
+ - skaffoldapp-job -> skaffoldapp-job:b7dd21f0836a170f37b7241c90e31f140df565e25c20fa46eef76cc98d8f2aaa
+Starting deploy...
+Helm release my-ingress not installed. Installing...
+NAME: my-ingress
+LAST DEPLOYED: Sun Apr 13 16:04:04 2025
+NAMESPACE: kube-system
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+The ingress-nginx controller has been installed.
+Get the application URL by running these commands:
+  export POD_NAME="$(kubectl get pods --namespace kube-system --selector app.kubernetes.io/name=ingress-nginx,app.kubernetes.io/instance=my-ingress,app.kubernetes.io/component=controller --output jsonpath="{.items[0].metadata.name}")"
+  kubectl port-forward --namespace kube-system "${POD_NAME}" 8080:80
+  echo "Visit http://127.0.0.1:8080 to access your application."
+
+An example Ingress that makes use of the controller:
+  apiVersion: networking.k8s.io/v1
+  kind: Ingress
+  metadata:
+    name: example
+    namespace: foo
+  spec:
+    ingressClassName: nginx
+    rules:
+      - host: www.example.com
+        http:
+          paths:
+            - pathType: Prefix
+              backend:
+                service:
+                  name: exampleService
+                  port:
+                    number: 80
+              path: /
+    # This section is only required if TLS is to be enabled for the Ingress
+    tls:
+      - hosts:
+        - www.example.com
+        secretName: example-tls
+
+If TLS is enabled for the Ingress, a Secret containing the certificate and key must also be provided:
+
+  apiVersion: v1
+  kind: Secret
+  metadata:
+    name: example-tls
+    namespace: foo
+  data:
+    tls.crt: <base64 encoded cert>
+    tls.key: <base64 encoded key>
+  type: kubernetes.io/tls
+Helm release mongodb not installed. Installing...
+NAME: mongodb
+LAST DEPLOYED: Sun Apr 13 16:04:30 2025
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+Helm release api not installed. Installing...
+NAME: api
+LAST DEPLOYED: Sun Apr 13 16:04:34 2025
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+Helm release job not installed. Installing...
+NAME: job
+LAST DEPLOYED: Sun Apr 13 16:04:38 2025
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+Waiting for deployments to stabilize...
+ - deployment/api is ready. [3/4 deployment(s) still pending]
+ - deployment/job is ready. [2/4 deployment(s) still pending]
+ - kube-system:deployment/my-ingress-ingress-nginx-controller is ready. [1/4 deployment(s) still pending]
+ - deployment/mongodb is ready.
+Deployments stabilized in 1.303 second
+ - deployment.apps/azurite created
+ - service/azurite created
+Waiting for deployments to stabilize...
+ - deployment/azurite: creating container azurite
+    - pod/azurite-64b896fbdd-wb2rt: creating container azurite
+ - deployment/azurite is ready.
+Deployments stabilized in 21.371 seconds
+Port forwarding service/my-ingress-ingress-nginx-controller in namespace kube-system, remote port 80 -> http://127.0.0.1:8080
+Listing files to watch...
+ - skaffoldapp-api
+ - skaffoldapp-job
+Press Ctrl+C to exit
+Watching for changes...
+[job] {"level":"debug","time":"2025-04-13T08:04:51Z","message":"Polling for new jobs...\n"}
+```
+
+### Pods list from k9s
+```
+│ api-58649c584c-fs72k           ●       1/1        Running                     0 10.244.0.19        minikube        4m59s         │
+│ azurite-64b896fbdd-wb2rt       ●       1/1        Running                     0 10.244.0.21        minikube        4m53s         │
+│ job-7fb86887c5-5g87n           ●       1/1        Running                     0 10.244.0.20        minikube        4m55s         │
+│ mongodb-5d67d447d9-9bjgg       ●       1/1        Running                     0 10.244.0.18        minikube        5m3s          │     
+```
