@@ -2,5 +2,5 @@ global:
   mongodb:
     username: admin
     password: admin
-    database: gobddd
+    database: skaffoldappdb
     port: 27017
