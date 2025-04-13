@@ -4,3 +4,4 @@ global:
     password: admin
     database: skaffoldappdb
     port: 27017
+    host: mongodb

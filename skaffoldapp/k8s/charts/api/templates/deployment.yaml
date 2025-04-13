@@ -28,7 +28,7 @@ spec:
             - containerPort: 80
           env:
             - name: MONGODB_HOST
-              value: {{ .Values.mongodb.host }}
+              value: {{ .Values.global.mongodb.host | quote }}
             - name: MONGODB_PORT
               value: {{ .Values.global.mongodb.port | quote }}
             - name: MONGODB_USERNAME

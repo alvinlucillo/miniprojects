@@ -1,5 +1,9 @@
-mongodb:
-   host: mongodb
+# Example how to override the values from skaffold config
+#  by specifying values like this:
+#    mongodb:
+#      host: mongodb
+#  then use that in the k8s manifest:
+#      value: {{ .Values.mongodb.host }}
 azure:
    storage_account: devstoreaccount1
    storage_key: Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==
