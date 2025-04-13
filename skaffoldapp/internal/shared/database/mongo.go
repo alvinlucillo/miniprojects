@@ -18,7 +18,6 @@ const (
 
 func NewMongoDatabase(host, port, username, password string) (*mongo.Client, error) {
 	// Connect to MongoDB
-	// clientOptions := options.Client().ApplyURI("mongodb://admin:admin@localhost:27018")
 	clientOptions := options.Client().ApplyURI(fmt.Sprintf("mongodb://%v:%v@%v:%v", username, password, host, port))
 	client, err := mongo.Connect(context.TODO(), clientOptions)
 	if err != nil {
